@@ -1,6 +1,7 @@
 import pygame, os, sys, random
 import pygame.font
-
+import numpy as np
+from time import gmtime, strftime
 pygame.font.init()
 
 SCORE_FONT =pygame.font.SysFont("comicsans", 100)
@@ -29,18 +30,25 @@ PIPE_IMAGE = pygame.transform.scale(pygame.image.load("assets/pipe.png"), (PIPE_
 BIRD_SPRITE = []
 for i in range(3): BIRD_SPRITE.append(pygame.transform.scale(pygame.image.load(f"assets/bird{i}.png"), (BIRD_WIDTH, BIRD_HEIGHT)))
 
-def main():
+def main(player_playing = True, is_training = False):
 	clock = pygame.time.Clock()
 	run = True
-	start = False
+	start = False if player_playing else True
 	score = 0 
 	base_list = [Base(0), Base(BASE_WIDTH), Base(2*BASE_WIDTH)]
 	pipe_list = [Pipe(WIDTH,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)), 
 				 Pipe(WIDTH+PIPE_WIDTH+PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)), 
 				 Pipe(WIDTH+2*PIPE_WIDTH+2*PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND))]
 	bird = Bird()
+
+	time_for_decision = 0
+
+	if is_training:
+		training_data = []
+
 	while run:
 		clock.tick(75)
+		jumped_this_frame = False
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -50,9 +58,24 @@ def main():
 				if event.key == pygame.K_ESCAPE:
 					run = False
 					sys.exit()
-				elif event.key == pygame.K_SPACE:
+				elif event.key == pygame.K_SPACE and player_playing:
 					start = True
-					bird.jump()
+					bird.jump()	
+
+		if start and is_training:
+			y = 1 if jumped_this_frame else 0
+			x = [bird.y, pipe_list[0].x, pipe_list[0].y, PIPE_GAP, BASE_SPEED]
+			training_data.append((x, y))
+			print(training_data)
+
+		if not player_playing and time_for_decision<=0:
+			value = random.randint(0,10)/10
+			print(value)
+			if value > 0.7 and time_for_decision<=0:
+				start = True
+				bird.jump()
+				time_for_decision += 40
+			time_for_decision -= 1
 
 		SCREEN.blit(BACKGROUND_IMAGE,(0,0))
 
@@ -74,11 +97,14 @@ def main():
 		draw_score(score)
 
 		if not check_for_collisions(bird, pipe_list, base_list):
-			run = False 
+			run = False
+			if score > 10:
+				print("saving the training data")
+				filename = strftime("%Y-%m-%d %H-%M-%S", gmtime())
+				np.save(f"training_data/{filename}", training_data)
 			print("Restarting Game")
 			pygame.time.delay(1000)
-
-			main()
+			main(player_playing, is_training)
 
 		pygame.display.update()
 
@@ -190,10 +216,6 @@ def draw_score(score):
 	SCREEN.blit(text_img, (WIDTH//2-text_img.get_width()//2,100))
 	
 
-
-
-
-
 if __name__ == '__main__':
-	main()
+	main(True, True)
 
