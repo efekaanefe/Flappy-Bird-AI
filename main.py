@@ -64,9 +64,12 @@ def main(player_playing = True, is_training = False):
 
 		if start and is_training:
 			y = 1 if jumped_this_frame else 0
-			x = [bird.y, pipe_list[0].x, pipe_list[0].y, PIPE_GAP, BASE_SPEED]
+			p0 = pipe_list[0]
+			p1 = pipe_list[1]
+			x = [bird.y, p0.x, p0.y, p0.y-PIPE_GAP-PIPE_HEIGHT, 
+				 p1.x, p1.y, p1.y-PIPE_GAP-PIPE_HEIGHT]
 			training_data.append((x, y))
-			print(training_data)
+			# print(training_data)
 
 		if not player_playing and time_for_decision<=0:
 			value = random.randint(0,10)/10
@@ -123,7 +126,6 @@ class Base():
 	def draw(self):
 		SCREEN.blit(BASE_IMAGE,(self.x, self.y))
 
-
 def draw_base(base_list):
 	for i in range(len(base_list)-1,-1,-1):
 		base = base_list[i] 
@@ -133,7 +135,6 @@ def draw_base(base_list):
 			base.x = base_list[-1].x+BASE_WIDTH-1
 			base_list.append(Base(base.x))
 			base_list.pop(0)
-
 
 #PIPE, contains both the top and bottom pipes
 class Pipe():
@@ -165,7 +166,6 @@ def draw_pipes(pipe_list):
 			pipe_list.append(Pipe(pipe.x, random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)))
 			pipe_list.pop(0)
 			
-
 #BIRD
 class Bird():
 	def __init__(self):

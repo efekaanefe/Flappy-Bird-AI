@@ -6,11 +6,18 @@ path = "training_data"
 dir_list = os.listdir(path)
 print(dir_list)
 
-training_x = []
-training_y = []
+train_X = []
+train_y = []
 
 for filename in dir_list:
-    data = np.load(f"{path}/{filename}", allow_pickle=True)[0]
-    print(data.shape)
+    data = np.load(f"{path}/{filename}", allow_pickle=True)
+    for X, y in data:
+        # print(X, y)
+        train_X.append(np.array(X))
+        train_y.append(np.array(y))
+    break
 
-print(data)
+train_X = np.array(train_X)
+train_y = np.array(train_y)
+
+print(train_y.shape)
