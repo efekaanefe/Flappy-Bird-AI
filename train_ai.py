@@ -1,23 +1,8 @@
 from nn import MyNeuralNetwork
+from data_init import DataInitializerFB
 import numpy as np
 import os
 
-path = "training_data"
-dir_list = os.listdir(path)
-print(dir_list)
 
-train_X = []
-train_y = []
-
-for filename in dir_list:
-    data = np.load(f"{path}/{filename}", allow_pickle=True)
-    for X, y in data:
-        # print(X, y)
-        train_X.append(np.array(X))
-        train_y.append(np.array(y))
-    break
-
-train_X = np.array(train_X)
-train_y = np.array(train_y)
-
-print(train_y.shape)
+nn = MyNeuralNetwork(dataInitializer=DataInitializerFB(), hidden = 5)
+nn.gradient_descent(epochs=3, learning_rate=0.1, batch_size=8200, print_acc=True, plot_acc=True)
