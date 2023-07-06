@@ -29,9 +29,10 @@ class MyNeuralNetwork:
         self.accuracy_values = []
         self.epoch_values = []
 
+        print(f"iterations:{iterations}")
         for epoch in range(epochs):
             for iteration in range(iterations):
-
+                # print(self.W1)
                 # parsing the data
                 index0 = iteration * batch_size
                 index1 = (iteration + 1) * batch_size
@@ -66,7 +67,7 @@ class MyNeuralNetwork:
         Z1 = self.W1 @ X + self.b1
         A1 = self.activations.ReLU(Z1)
         Z2 = self.W2 @ A1 + self.b2
-        A2 = self.activations.softmax(Z2)
+        A2 = self.activations.sigmoid(Z2)
         return Z1, A1, Z2, A2
 
     def backward_propagation(self, X, Y, Z1, A1, Z2, A2, batch_size):
@@ -74,7 +75,7 @@ class MyNeuralNetwork:
         dZ2 = A2 - Y
         dW2 = 1 / m * dZ2 @ A1.T
         db2 = 1 / m * np.sum(dZ2)
-        dZ1 = self.W2.T @ dZ2 * self.activations.sigmoid(Z1)
+        dZ1 = self.W2.T @ dZ2 * self.activations.ReLU_deriv(Z1)
         dW1 = 1 / m * dZ1 @ X.T
         db1 = 1 / m * np.sum(dZ1)
         return dW1, db1, dW2, db2
@@ -91,7 +92,9 @@ class MyNeuralNetwork:
     def get_accuracy(self, predictions, Y, print_predictions=False):
         if print_predictions:
             print(predictions, Y)
-        return np.sum(predictions == Y) / Y.size
+
+        # print(Y)
+        return np.sum(predictions == Y) #/ Y.size
 
     def plot_and_label_X(self, i):
         print("Label:", self.data.train_y[i])
@@ -123,6 +126,7 @@ class MyNeuralNetwork:
 
     def print_accuracy(self, A2, Y, epoch, index0, index1):
         print("Epoch:", epoch)
+        print(A2)
         predictions = self.get_predictions(A2)
         accuracy = self.get_accuracy(predictions, Y)
         print(accuracy)

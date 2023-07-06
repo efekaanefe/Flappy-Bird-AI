@@ -59,15 +59,16 @@ class DataInitializerFB:
         for i in range(len(train_X_T)):
             a1, a2, a3, a4, a5, a6, a7 = train_X_T[i]
             train_X.append([a1/H, a2/W, a3/H, a4/H, a5/W, a6/H, a7/H])
-        self.train_X = np.array(train_X).T.clip(min=0)
+        self.train_X = np.array(train_X).T.clip(min=0.01, max=1)
 
 
         for i in range(len(test_X_T)):
             a1, a2, a3, a4, a5, a6, a7 = test_X_T[i]
             test_X.append([a1/H, a2/W, a3/H, a4/H, a5/W, a6/H, a7/H])
-        self.test_X = np.array(test_X).T.clip(min=0)
+        self.test_X = np.array(test_X).T.clip(min=0.01, max=1)
 
-        print(self.test_X)          
+        print(self.test_X.shape)          
+        print(self.train_X.shape)          
 
     def get_y_one_hot_data(self):
         self.train_y_onehot = self.get_one_hot_y(self.train_y)  # shape -> (10,60000)
