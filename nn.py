@@ -32,8 +32,8 @@ class MyNeuralNetwork:
         print(f"iterations:{iterations}")
         for epoch in range(epochs):
             for iteration in range(iterations):
-                # print(self.W1)
-                # parsing the data
+
+               # parsing the data
                 index0 = iteration * batch_size
                 index1 = (iteration + 1) * batch_size
 
@@ -45,6 +45,11 @@ class MyNeuralNetwork:
                     X, Y, Z1, A1, Z2, A2, batch_size
                 )
                 self.update_parameters(learning_rate, dW1, db1, dW2, db2)
+
+                print(self.W1)
+                print(self.W2)
+                print(A2)
+                print("-"*15)
 
                 if print_acc and epoch % 10 == 0 and iteration == iterations - 1:
                     prediction, accuracy = self.print_accuracy(
@@ -126,7 +131,6 @@ class MyNeuralNetwork:
 
     def print_accuracy(self, A2, Y, epoch, index0, index1):
         print("Epoch:", epoch)
-        print(A2)
         predictions = self.get_predictions(A2)
         accuracy = self.get_accuracy(predictions, Y)
         print(accuracy)

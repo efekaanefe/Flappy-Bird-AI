@@ -9,6 +9,10 @@ class DataInitializerFB:
         print(len(self.train_X), len(self.test_X))
         # self.add_augmented_data()
         self.normalize_X()
+
+        print(self.test_X.shape)          
+        print(self.train_X.shape)          
+
         # self.get_X_flatten_data()
         # self.get_y_one_hot_data()
 
@@ -67,16 +71,13 @@ class DataInitializerFB:
             test_X.append([a1/H, a2/W, a3/H, a4/H, a5/W, a6/H, a7/H])
         self.test_X = np.array(test_X).T.clip(min=0.01, max=1)
 
-        print(self.test_X.shape)          
-        print(self.train_X.shape)          
-
     def get_y_one_hot_data(self):
-        self.train_y_onehot = self.get_one_hot_y(self.train_y)  # shape -> (10,60000)
-        self.test_y_onehot = self.get_one_hot_y(self.test_y)  # shape -> (10,60000)
+        self.train_y_onehot = self.get_one_hot_y(self.train_y)  # shape -> (1, 1)
+        self.test_y_onehot = self.get_one_hot_y(self.test_y)  # shape -> (1, 1)
 
     def get_X_flatten_data(self):
-        self.train_X_flatten = self.get_flatten_X(self.train_X)  # shape -> (784,60000)
-        self.test_X_flatten = self.get_flatten_X(self.test_X)  # shape -> (784,60000)
+        self.train_X_flatten = self.get_flatten_X(self.train_X)  # shape -> (7, total_frames)
+        self.test_X_flatten = self.get_flatten_X(self.test_X)  # shape -> (7, total_frames)
 
     def get_one_hot_y(self, y):
         output = []
