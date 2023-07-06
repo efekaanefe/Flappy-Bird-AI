@@ -74,7 +74,7 @@ class MyNeuralNetwork:
         dZ2 = A2 - Y
         dW2 = 1 / m * dZ2 @ A1.T
         db2 = 1 / m * np.sum(dZ2)
-        dZ1 = self.W2.T @ dZ2 * self.activations.ReLU_deriv(Z1)
+        dZ1 = self.W2.T @ dZ2 * self.activations.sigmoid(Z1)
         dW1 = 1 / m * dZ1 @ X.T
         db1 = 1 / m * np.sum(dZ1)
         return dW1, db1, dW2, db2

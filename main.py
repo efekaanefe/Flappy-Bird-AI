@@ -44,8 +44,8 @@ def main(player_playing = True, is_training = False):
 			y = 1 if jumped_this_frame else 0
 			p0 = pipe_list[0]
 			p1 = pipe_list[1]
-			x = [bird.y, p0.x, p0.y, p0.y-PIPE_GAP-PIPE_HEIGHT, 
-				 p1.x, p1.y, p1.y-PIPE_GAP-PIPE_HEIGHT]
+			x = [bird.y, p0.x, p0.y, p0.y-PIPE_GAP, 
+				 p1.x, p1.y, p1.y-PIPE_GAP]
 			training_data.append((x, y))
 			# print(training_data)
 

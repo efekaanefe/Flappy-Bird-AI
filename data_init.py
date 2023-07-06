@@ -59,12 +59,13 @@ class DataInitializerFB:
         for i in range(len(train_X_T)):
             a1, a2, a3, a4, a5, a6, a7 = train_X_T[i]
             train_X.append([a1/H, a2/W, a3/H, a4/H, a5/W, a6/H, a7/H])
-        self.train_X = np.array(train_X).T
+        self.train_X = np.array(train_X).T.clip(min=0)
+
 
         for i in range(len(test_X_T)):
             a1, a2, a3, a4, a5, a6, a7 = test_X_T[i]
             test_X.append([a1/H, a2/W, a3/H, a4/H, a5/W, a6/H, a7/H])
-        self.test_X = np.array(test_X).T
+        self.test_X = np.array(test_X).T.clip(min=0)
 
         print(self.test_X)          
 
