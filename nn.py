@@ -46,8 +46,8 @@ class MyNeuralNetwork:
                 )
                 self.update_parameters(learning_rate, dW1, db1, dW2, db2)
 
-                print(self.W1)
-                print(self.W2)
+                # print(self.W1)
+                # print(self.W2)
                 print(A2)
                 print("-"*15)
 
@@ -92,14 +92,18 @@ class MyNeuralNetwork:
         self.b2 = self.b2 - learning_rate * db2
 
     def get_predictions(self, A2):
-        return np.argmax(A2, 0)
+        # A2[A2>0.5] = 1
+        # A2[A2<0.5] = 0
+        # print(A2)
+        return A2
+        # return np.argmax(A2, 0)
 
     def get_accuracy(self, predictions, Y, print_predictions=False):
         if print_predictions:
             print(predictions, Y)
 
         # print(Y)
-        return np.sum(predictions == Y) #/ Y.size
+        return np.sum(predictions == Y) / Y.size
 
     def plot_and_label_X(self, i):
         print("Label:", self.data.train_y[i])
