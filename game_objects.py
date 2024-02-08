@@ -42,3 +42,36 @@ class Bird():
 		self.screen.blit(self.sprite[int(self.current_sprite)], (self.x, self.y))
 
 
+class Base():
+	def __init__(self, x = 0, y=HEIGHT-50):
+		self.x = x
+		self.y = y
+		self.rect = pygame.Rect(self.x, self.y, BASE_WIDTH, BASE_HEIGHT)
+
+
+	def move(self):
+		self.x -= BASE_SPEED
+		self.rect.x = self.x
+
+	def draw(self, SCREEN):
+		SCREEN.blit(BASE_IMAGE,(self.x, self.y))
+
+
+class Pipe():
+
+	def __init__(self, x, y): # y is for bottom pipe
+		self.x = x
+		self.y = y
+		self.rects = [pygame.Rect(self.x, self.y, PIPE_WIDTH, PIPE_HEIGHT), 
+						pygame.Rect(self.x, self.y-PIPE_GAP-PIPE_HEIGHT, PIPE_WIDTH, PIPE_HEIGHT)] #bottom, top
+
+	def draw(self, SCREEN):
+		SCREEN.blit(PIPE_IMAGE, (self.x, self.y)) #bottom
+		SCREEN.blit(pygame.transform.rotate(PIPE_IMAGE,180),(self.x, self.y-PIPE_GAP-PIPE_HEIGHT)) #top
+		#pygame.draw.rect(SCREEN, (0,0,0), self.rects[0])
+		#pygame.draw.rect(SCREEN, (0,0,0), self.rects[1])
+
+	def move(self):
+		self.x -= BASE_SPEED 
+		for rect in self.rects:
+			rect.x = self.x 
