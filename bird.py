@@ -7,8 +7,9 @@ class Bird():
 	def __init__(self, screen, alpha = 1):
 		self.screen = screen
 		self.alpha = alpha
-		self.x = 200
-		self.y = 400
+		
+		self.x = BIRD_X_INIT
+		self.y = BIRD_Y_INIT
 		self.sprite = BIRD_SPRITE
 		self.current_sprite = 0
 		self.y_vel = 0
@@ -30,7 +31,6 @@ class Bird():
 		self.y_vel += self.acceleration_y*self.time_passed
 		self.move()
 		self.create_rect()
-
 
 	def move(self):
 		self.y += self.y_vel

@@ -18,13 +18,13 @@ def main(bird_list = None):
 				 Pipe(WIDTH+PIPE_WIDTH+PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)), 
 				 Pipe(WIDTH+2*PIPE_WIDTH+2*PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND))]
 	
-	population_size = 100
+	population_size = 1000
 	mutations_per_genome = 3
 	mutation_probability = 0.5
 	if not bird_list:
 		bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
 
-	time_for_decision = 0
+	time_for_decision = 10 # frame
 
 	while run:
 		clock.tick(75)
@@ -41,25 +41,11 @@ def main(bird_list = None):
 		SCREEN.blit(BACKGROUND_IMAGE,(0,0))
 		draw_base(base_list)
 		draw_pipes(pipe_list)
+		time_for_decision -= 1
 
 		# bird_list updates
 		for bird in bird_list:
-			# decision
 			if bird.is_alive:
-				value = random.randint(0,10)/10
-				if value > 0.2 and time_for_decision<=0:
-					start = True
-					bird.jump()
-					time_for_decision += 40
-				time_for_decision -= 1
-				
-				# draw
-				bird.draw()
-				bird.current_sprite += bird.sprite_incrementation
-				if int(bird.current_sprite) >= 3:
-					bird.current_sprite = 0
-				bird.update_location()
-
 				# score
 				if pipe_list[0].x + PIPE_WIDTH/2 == bird.x:
 						bird.score += 1
@@ -68,28 +54,50 @@ def main(bird_list = None):
 				if not check_for_collisions(bird, pipe_list, base_list):
 					bird.is_alive = False
 
+				# features for bird
+				x0 = bird.x - pipe_list[0].x # forward
+				x1 = bird.y - (pipe_list[0].y - PIPE_GAP) # upward 
+				x2 = bird.y - pipe_list[0].y # downward
+				X = np.array([x0,x1,x2])
+
+				# decision to jump
+				if time_for_decision == 0:
+					decision = bird.brain.decision(X)
+					if decision >= 0.5:
+						bird.jump()
+						time_for_decision = 5
+
+				# draw, and update pos
+				bird.draw()
+				bird.current_sprite += bird.sprite_incrementation
+				if int(bird.current_sprite) >= 3:
+					bird.current_sprite = 0
+				bird.update_location()
 
 
-		# for bird in bird_list:
-		# 	if bird.is_alive:
-		# 		bird.draw()
-		# 		bird.current_sprite += bird.sprite_incrementation
-		# 		if int(bird.current_sprite) >= 3:
-		# 			bird.current_sprite = 0
-		# 		bird.update_location()
+		alive_birds_count= get_alive_birds_count(bird_list)
+		print(f"Alive birds: {alive_birds_count}")
 
+		if alive_birds_count < 3:
+			# bird_list = reproduce(bird_list) # new population
+			for bird in bird_list:
+				bird.is_alive = True
+				bird.x = BIRD_X_INIT
+				bird.y = BIRD_Y_INIT
+				bird.y_vel = 0
 
-		# #score update
-		# for bird in bird_list:
-		# 	if bird.is_alive:
-		# 		if pipe_list[0].x + PIPE_WIDTH/2 == bird.x:
-		# 			bird.score += 1
-		# 	#draw_score(score)
-		# for bird in bird_list:
-		# 	if not check_for_collisions(bird, pipe_list, base_list):
-		# 		bird.is_alive = False
+			bird_list = bird_list
+			bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
+			main(bird_list=bird_list)
 
 		pygame.display.update()
+
+def get_alive_birds_count(bird_list):
+	count = 0
+	for bird in bird_list:
+		if bird.is_alive:
+			count += 1
+	return count
 
 #BASE
 class Base():
@@ -150,10 +158,8 @@ def check_for_collisions(bird, pipe_list, base_list):
 	length = len(pipe_list)
 	for i in range(length):
 		if bird.rect.colliderect(pipe_list[i].rects[0]) or bird.rect.colliderect(pipe_list[i].rects[1]):
-			print("Gameover") 
 			return False 
 		if bird.rect.colliderect(base_list[i].rect) or bird.rect.colliderect(base_list[i].rect) or bird.rect.colliderect(base_list[i].rect):
-			print("Gameover")
 			return False 
 	return True
 
