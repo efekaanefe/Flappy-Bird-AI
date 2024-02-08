@@ -11,6 +11,7 @@ class GeneticAlgorithm:
     def crossover(self, p1, p2): # single point crossover
         if len(p1) == len(p2):            
             length = len(p1)
+            print(p1)
             ci = randint(1, length-1) # crossover index
             return (p1[0:ci] + p2[ci:], p2[0:ci]+p1[ci:])
         else:
@@ -22,8 +23,7 @@ class GeneticAlgorithm:
             if random() <= self.mutation_probability:
                 index = randint(0,len(genome)-1)
                 mutation_multiplier = choice([-1,1])
-                mutation_amount = MUTATION_AMOUNT
-                genome_copy[index] = genome_copy[index] + mutation_multiplier*mutation_amount
+                genome_copy[index] = genome_copy[index] + mutation_multiplier * MUTATION_AMOUNT
         return genome_copy
 
     def evaluate_scores(self, population):
@@ -37,4 +37,6 @@ class GeneticAlgorithm:
         return sorted(population, key=lambda bird: bird.score, reverse=True)
 
     def select_pair(self, population): 
-        return choices(population, weights=[bird.score for bird in population], k = 2)
+        weights=[bird.score for bird in population]
+        # print(weights)
+        return choices(population, weights=weights, k = 2)
