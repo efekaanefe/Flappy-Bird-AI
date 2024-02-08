@@ -18,6 +18,7 @@ class Bird():
 		self.create_rect()
 		
         # genetic algorithm
+		self.is_alive = True
 		self.score = 0
 		self.brain = Perceptron()
 		
@@ -27,15 +28,15 @@ class Bird():
 
 	def update_location(self): #accelerate, move, update_sprite
 		self.y_vel += self.acceleration_y*self.time_passed
-
-		
 		self.move()
 		self.create_rect()
 
 
 	def move(self):
 		self.y += self.y_vel
+		
 	def create_rect(self):
 		self.rect = pygame.Rect(self.x, self.y, BIRD_WIDTH, BIRD_HEIGHT)
+		
 	def draw(self):
 		self.screen.blit(self.sprite[int(self.current_sprite)], (self.x, self.y))

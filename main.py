@@ -9,7 +9,7 @@ SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy Bird")
 
 
-def main():
+def main(bird_list = None):
 	clock = pygame.time.Clock()
 	run = True
 	score = 0 
@@ -21,8 +21,8 @@ def main():
 	population_size = 100
 	mutations_per_genome = 3
 	mutation_probability = 0.5
-
-	bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
+	if not bird_list:
+		bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
 
 	time_for_decision = 0
 
@@ -38,39 +38,56 @@ def main():
 					run = False
 					sys.exit()
 
-		for bird in bird_list:
-			# if time_for_decision<=0:
-			value = random.randint(0,10)/10
-			if value > 0.2 and time_for_decision<=0:
-				start = True
-				bird.jump()
-				time_for_decision += 40
-			time_for_decision -= 1
-
 		SCREEN.blit(BACKGROUND_IMAGE,(0,0))
-
 		draw_base(base_list)
-
-		for bird in bird_list:
-			bird.draw()
-			bird.current_sprite += bird.sprite_incrementation
-			if int(bird.current_sprite) >= 3:
-				bird.current_sprite = 0
-			bird.update_location()
-
 		draw_pipes(pipe_list)
 
-		#score update
+		# bird_list updates
 		for bird in bird_list:
-			if pipe_list[0].x + PIPE_WIDTH/2 == bird.x:
-				bird.score += 1
-			#draw_score(score)
+			# decision
+			if bird.is_alive:
+				value = random.randint(0,10)/10
+				if value > 0.2 and time_for_decision<=0:
+					start = True
+					bird.jump()
+					time_for_decision += 40
+				time_for_decision -= 1
+				
+				# draw
+				bird.draw()
+				bird.current_sprite += bird.sprite_incrementation
+				if int(bird.current_sprite) >= 3:
+					bird.current_sprite = 0
+				bird.update_location()
 
-		# if not check_for_collisions(bird, pipe_list, base_list):
-		# 	run = False
-		# 	print("Restarting Game")
-		# 	pygame.time.delay(500)
-		# 	main()
+				# score
+				if pipe_list[0].x + PIPE_WIDTH/2 == bird.x:
+						bird.score += 1
+
+				# dead or alive
+				if not check_for_collisions(bird, pipe_list, base_list):
+					bird.is_alive = False
+
+
+
+		# for bird in bird_list:
+		# 	if bird.is_alive:
+		# 		bird.draw()
+		# 		bird.current_sprite += bird.sprite_incrementation
+		# 		if int(bird.current_sprite) >= 3:
+		# 			bird.current_sprite = 0
+		# 		bird.update_location()
+
+
+		# #score update
+		# for bird in bird_list:
+		# 	if bird.is_alive:
+		# 		if pipe_list[0].x + PIPE_WIDTH/2 == bird.x:
+		# 			bird.score += 1
+		# 	#draw_score(score)
+		# for bird in bird_list:
+		# 	if not check_for_collisions(bird, pipe_list, base_list):
+		# 		bird.is_alive = False
 
 		pygame.display.update()
 
