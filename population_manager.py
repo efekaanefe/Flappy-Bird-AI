@@ -77,19 +77,14 @@ class PopulatioManager:
 
             bird_a = Bird(self.screen)
             bird_b = Bird(self.screen)
-            # weights
+
+            # weights and bias
             offspring_a, offspring_b = self.genetic.crossover(parents[0].brain.w, parents[1].brain.w)
             offspring_a = self.genetic.mutation(offspring_a)
             offspring_b = self.genetic.mutation(offspring_b)
+
             bird_a.brain.w = offspring_a
             bird_b.brain.w = offspring_b
-
-            # biases, object of type 'float' has no len()
-            # offspring_a, offspring_b = self.genetic.crossover(parents[0].brain.b, parents[1].brain.b)
-            # offspring_a = self.genetic.mutation(offspring_a)
-            # offspring_b = self.genetic.mutation(offspring_b)
-            # bird_a.brain.b = offspring_a
-            # bird_b.brain.b = offspring_b
 
             next_generation += [bird_a, bird_b]
 
