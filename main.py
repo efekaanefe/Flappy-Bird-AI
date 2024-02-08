@@ -3,29 +3,30 @@ import pygame.font
 import numpy as np
 from time import gmtime, strftime
 from constants import *
-from bird import Bird
+from population_manager import PopulatioManager
 
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy Bird")
 
 
 def main(bird_list = None):
+	population_manager = PopulatioManager(POPULATION_SIZE,
+							 MUTATIONS_PER_GENOME, 
+							 MUTATION_PROBABILITY, 
+							 SCREEN)
+	
 	clock = pygame.time.Clock()
 	run = True
-	score = 0 
 	base_list = [Base(0), Base(BASE_WIDTH), Base(2*BASE_WIDTH)]
 	pipe_list = [Pipe(WIDTH,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)), 
 				 Pipe(WIDTH+PIPE_WIDTH+PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND)), 
 				 Pipe(WIDTH+2*PIPE_WIDTH+2*PIPE_DISTANCE,random.randint(PIPE_LOWER_HEIGHT_BOUND, PIPE_UPPER_HEIGHT_BOUND))]
 	
-	population_size = 1000
-	mutations_per_genome = 3
-	mutation_probability = 0.5
 	if not bird_list:
-		bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
+		bird_list = population_manager.generate_population()
 
 	time_for_decision = 10 # frame
-
+	
 	while run:
 		clock.tick(75)
 
@@ -65,7 +66,7 @@ def main(bird_list = None):
 					decision = bird.brain.decision(X)
 					if decision >= 0.5:
 						bird.jump()
-						time_for_decision = 5
+						time_for_decision = 1
 
 				# draw, and update pos
 				bird.draw()
@@ -76,9 +77,9 @@ def main(bird_list = None):
 
 
 		alive_birds_count= get_alive_birds_count(bird_list)
-		print(f"Alive birds: {alive_birds_count}")
+		# print(f"Alive birds: {alive_birds_count}")
 
-		if alive_birds_count < 3:
+		if alive_birds_count < 1:
 			# bird_list = reproduce(bird_list) # new population
 			for bird in bird_list:
 				bird.is_alive = True
@@ -87,7 +88,7 @@ def main(bird_list = None):
 				bird.y_vel = 0
 
 			bird_list = bird_list
-			bird_list = [Bird(screen=SCREEN) for _ in range(population_size)]
+			bird_list = population_manager.generate_population()
 			main(bird_list=bird_list)
 
 		pygame.display.update()

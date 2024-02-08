@@ -7,7 +7,7 @@ def unit_step_func(X):
     return np.where(X > 0 , 1, 0)
 
 class Perceptron:
-    def __init__(self, num_features = 3, activation = unit_step_func):
+    def __init__(self, num_features = 3, activation = sigmoid):
         self.num_features = num_features
         self.w = np.random.rand(num_features)
         self.b = np.random.rand()

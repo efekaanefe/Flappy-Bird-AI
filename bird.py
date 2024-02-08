@@ -40,3 +40,5 @@ class Bird():
 		
 	def draw(self):
 		self.screen.blit(self.sprite[int(self.current_sprite)], (self.x, self.y))
+
+

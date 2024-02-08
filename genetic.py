@@ -1,21 +1,16 @@
 from random import choice, choices, randint, random
+from bird import Bird
 
 class GeneticAlgorithm:
     def __init__(self, 
                  population_size, 
                  mutations_per_genome, 
-                 mutation_probability
+                 mutation_probability,
                 ):
         
         self.population_size = population_size
         self.mutations_per_genome = mutations_per_genome
         self.mutation_probability = mutation_probability
-
-    def generate_genome(self):
-        return [randint(self.pitch_min, self.pitch_max) for _ in range(self.number_of_notes)]
-    
-    def generate_population(self):
-        return [self.generate_genome() for _ in range(self.population_size)]
 
     # crossover two parent genomes to create two children
     def crossover(self, p1, p2): # single point crossover

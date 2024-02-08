@@ -27,3 +27,10 @@ for i in range(3): BIRD_SPRITE.append(pygame.transform.scale(pygame.image.load(f
 
 BIRD_X_INIT = 200
 BIRD_Y_INIT = 400
+
+
+# Genetic
+POPULATION_SIZE = 1000
+MUTATIONS_PER_GENOME = 3
+MUTATION_PROBABILITY = 0.5
+
