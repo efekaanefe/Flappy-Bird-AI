@@ -14,7 +14,7 @@ class PopulatioManager:
         self.generation = 1
         self.population = None
         self.generate_population()
-        self.species = []
+        # self.species = []
 
         self.time_for_decision = INITIAL_TIME_FOR_DECISION # to jump
         
@@ -54,6 +54,26 @@ class PopulatioManager:
                     bird.current_sprite = 0
                 bird.update_location()
 
+    def get_alive_birds_count(self):
+        count = 0
+        for bird in self.population:
+            if bird.is_alive:
+                count += 1
+        return count
 
-    def survival_of_the_fittest(self, population):
-        pass
+    def survival_of_the_fittest(self):
+        sorted_population = self.genetic.sort_population(self.population) # sortede
+        next_generation = sorted_population[0:2]
+        for _ in range(self.population_size // 2 - 1):
+            parents = self.genetic.select_pair(sorted_population)
+            offspring_a, offspring_b = self.genetic.crossover(parents[0].brain.w, parents[1].brain.w)
+            offspring_a = self.genetic.mutation(offspring_a)
+            offspring_b = self.genetic.mutation(offspring_b)
+            # bird_a = Bird()
+            next_generation += [offspring_a, offspring_b]
+
+        self.population = next_generation
+
+
+
+

@@ -22,7 +22,7 @@ class GeneticAlgorithm:
             if random() <= self.mutation_probability:
                 index = randint(0,len(genome)-1)
                 mutation_multiplier = choice([-1,1])
-                mutation_amount = 1
+                mutation_amount = MUTATION_AMOUNT
                 genome_copy[index] = genome_copy[index] + mutation_multiplier*mutation_amount
         return genome_copy
 
@@ -33,10 +33,8 @@ class GeneticAlgorithm:
             scores.append(score)
         return scores
 
-    def sort_population(self, population, scores):
-        sorted_data = sorted(zip(population, scores), key=lambda x: x.score, reverse = True)
-        sorted_population, sorted_scores = zip(*sorted_data)
-        return sorted_population, sorted_scores
+    def sort_population(self, population):
+        return sorted(population, key=lambda bird: bird.score, reverse=True)
 
-    def select_pair(self, population, scores): 
-        return choices(population, weights=scores, k = 2)
+    def select_pair(self, population): 
+        return choices(population, weights=[bird.score for bird in population], k = 2)
