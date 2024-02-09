@@ -1,5 +1,6 @@
 from game_objects import Bird
 from genetic import GeneticAlgorithm
+from specie import Specie
 from constants import *
 from game_util import check_for_collisions
 import numpy as np
@@ -14,7 +15,7 @@ class PopulatioManager:
         self.generation = 1
         self.population = None
         self.generate_population()
-        # self.species = []
+        self.species = []
 
         self.time_for_decision = INITIAL_TIME_FOR_DECISION # to jump
         
@@ -91,5 +92,8 @@ class PopulatioManager:
         self.population = next_generation
 
 
+    def add_new_specie(self, refenrence_bird):
+        self.species.append(Specie(refenrence_bird))
+        self.species[-1].members.append(refenrence_bird)
 
 
