@@ -99,7 +99,8 @@ class PopulatioManager:
     def calculate_fitness_for_species(self):
         for specie in self.species:
             specie.calculate_average_score()
-
+            specie.find_champion()
+            
     def sort_population(self): # inside of 
         for specie in self.species:
             specie.sort_members()

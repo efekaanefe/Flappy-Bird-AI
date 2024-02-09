@@ -1,11 +1,14 @@
 import numpy as np
 from constants import WEIGHT_DIFFERENCE_THRESHOLD
+
+
 class Specie:
     def __init__(self, refenrence_bird):
         self.refenrence_bird = refenrence_bird
         self.reference_weights = refenrence_bird.brain.w
         self.members = []
         self.average_score = 0
+        self.champion = None
 
     def is_bird_relative(self, new_bird):
         new_weights = new_bird.brain.w
@@ -25,3 +28,10 @@ class Specie:
 
     def sort_members(self):
         self.members = sorted(self.members, key=lambda bird: bird.score, reverse=True)
+
+    def find_champion(self):
+        max_score = 0
+        for bird in self.members:
+            if bird.score > max_score:
+                self.champion = bird
+                max_score = bird.score

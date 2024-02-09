@@ -1,6 +1,8 @@
 from random import choice, choices, randint, random
 from constants import *
 
+# genome here is the perceptron object
+
 class GeneticAlgorithm:
     def __init__(self):
         self.population_size = POPULATION_SIZE
