@@ -33,9 +33,6 @@ class GeneticAlgorithm:
             scores.append(score)
         return scores
 
-    def sort_population(self, population):
-        return sorted(population, key=lambda bird: bird.score, reverse=True)
-
     def select_pair(self, population): 
         weights=[bird.score for bird in population]
         # print(weights)

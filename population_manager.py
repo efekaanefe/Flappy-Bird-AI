@@ -66,15 +66,55 @@ class PopulatioManager:
         return count
 
     def survival_of_the_fittest(self):
-        sorted_population = self.genetic.sort_population(self.population) # sortede
+        self.speciate()
+
+        self.calculate_fitness_for_species(self)
+
+        self.sort_population(self.population)
+
+        self.generate_next_population(self)
+
+
+    def speciate(self):
+        for specie in self.species:
+            specie.members = []
+
+        for bird in self.population:
+            if len(self.species) == 0:
+                self.species.append(Specie(bird))
+
+            else:
+                bird_is_added_to_members = False
+
+                for specie in self.species:
+                    is_bird_relative = specie.is_bird_relative(bird)
+                    if is_bird_relative:
+                        specie.add_member(bird)
+                        bird_is_added_to_members = True
+                        break
+                        
+                if not bird_is_added_to_members: # new specie
+                    self.add_new_specie(bird)
+
+    def calculate_fitness_for_species(self):
+        for specie in self.species:
+            specie.calculate_average_score()
+
+    def sort_population(self): # inside of 
+        for specie in self.species:
+            specie.sort_members()
+            
+        # self.population = sorted(self.population, key=lambda bird: bird.score, reverse=True)
+
+    def generate_next_population(self):
         next_generation = []
         for i in range(10):
             bird = Bird(self.screen)
-            bird.brain.w = sorted_population[i]
-            bird.brain.b = sorted_population[i]
+            bird.brain.w = self.population[i]
+            bird.brain.b = self.population[i]
 
         while len(next_generation)<POPULATION_SIZE:
-            parents = self.genetic.select_pair(sorted_population)
+            parents = self.genetic.select_pair(self.population)
 
             bird_a = Bird(self.screen)
             bird_b = Bird(self.screen)
@@ -90,7 +130,6 @@ class PopulatioManager:
             next_generation += [bird_a, bird_b]
 
         self.population = next_generation
-
 
     def add_new_specie(self, refenrence_bird):
         self.species.append(Specie(refenrence_bird))

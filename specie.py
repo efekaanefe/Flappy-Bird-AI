@@ -5,6 +5,7 @@ class Specie:
         self.refenrence_bird = refenrence_bird
         self.reference_weights = refenrence_bird.brain.w
         self.members = []
+        self.average_score = 0
 
     def is_bird_relative(self, new_bird):
         new_weights = new_bird.brain.w
@@ -16,3 +17,12 @@ class Specie:
     def add_member(self, bird):
         self.members.append(bird)
     
+    def calculate_average_score(self):
+        sum = 0
+        for member in self.members:
+            sum += member.score
+
+        self.average_score = sum / len(self.members)
+
+    def sort_members(self):
+        self.members = sorted(self.population, key=lambda bird: bird.score, reverse=True)
