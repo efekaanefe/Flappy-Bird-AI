@@ -12,7 +12,7 @@ BASE_SPEED = 5 # 10 % base_speed must be equal to 0, otherwise scoring mechanism
 
 PIPE_WIDTH, PIPE_HEIGHT = 100, 600
 PIPE_GAP = 300 # vertical
-PIPE_DISTANCE = 250 # horizontal
+PIPE_DISTANCE = 400 # horizontal
 PIPE_LOWER_HEIGHT_BOUND = 300
 PIPE_UPPER_HEIGHT_BOUND = 650
 
@@ -25,7 +25,7 @@ PIPE_IMAGE = pygame.transform.scale(pygame.image.load("assets/pipe.png"), (PIPE_
 BIRD_SPRITE = []
 for i in range(3): BIRD_SPRITE.append(pygame.transform.scale(pygame.image.load(f"assets/bird{i}.png"), (BIRD_WIDTH, BIRD_HEIGHT)))
 
-BIRD_X_INIT = 200
+BIRD_X_INIT = 100
 BIRD_Y_INIT = 400
 
 
@@ -34,7 +34,8 @@ POPULATION_SIZE = 1000
 MUTATIONS_PER_GENOME = 3
 MUTATION_PROBABILITY = 0.5
 MUTATION_AMOUNT  = 0.1
-WEIGHT_DIFFERENCE_THRESHOLD = 0.25
+WEIGHT_DIFFERENCE_THRESHOLD = 2
 
-INITIAL_TIME_FOR_DECISION = 3 # frame
+INITIAL_TIME_FOR_DECISION = 10 # frame
+JUMP_THRESHOLD = 0.5
 

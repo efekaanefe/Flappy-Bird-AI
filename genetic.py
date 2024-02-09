@@ -53,8 +53,8 @@ class GeneticAlgorithm:
 
                 index = randint(0,len(genome)-1)
                 mutation_multiplier = choice([-1,1])
-                mutation_amount = randint(0,101)/100
-                genome[index] = genome[index] + mutation_multiplier * mutation_amount #MUTATION_AMOUNT
+                # mutation_amount = randint(0,11)/100
+                genome[index] = genome[index] + mutation_multiplier * MUTATION_AMOUNT #MUTATION_AMOUNT
 
         brain.w = genome
         return brain

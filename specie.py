@@ -39,3 +39,5 @@ class Specie:
             if bird.score > max_score:
                 self.champion = bird
                 max_score = bird.score
+        if max_score == 0:
+            self.champion = self.members[0]

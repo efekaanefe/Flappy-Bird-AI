@@ -47,9 +47,9 @@ class PopulatioManager:
                 # decision to jump
                 if self.time_for_decision == 0:
                     decision = bird.brain.decision(X)
-                    if decision >= 0.5:
+                    if decision >= JUMP_THRESHOLD:
                         bird.jump()
-                        self.time_for_decision = INITIAL_TIME_FOR_DECISION
+                    self.time_for_decision = INITIAL_TIME_FOR_DECISION
 
                 # draw, and update pos
                 bird.draw()
@@ -67,6 +67,8 @@ class PopulatioManager:
 
     def survival_of_the_fittest(self): # runs when every bird is dead
         self.speciate()
+
+        print(len(self.species))
 
         self.calculate_fitness_for_species()
 
@@ -89,6 +91,13 @@ class PopulatioManager:
                     
             if not bird_is_added_to_members: # new specie
                 self.add_new_specie(bird)
+
+        species = []
+        for  specie in self.species: # destroy specie if no members
+            if len(specie.members) != 0:
+                species.append(specie)
+        self.species = species
+
 
     def calculate_fitness_for_species(self):
         for specie in self.species:
