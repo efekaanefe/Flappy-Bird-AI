@@ -65,7 +65,7 @@ class PopulatioManager:
                 count += 1
         return count
 
-    def survival_of_the_fittest(self):
+    def survival_of_the_fittest(self): # runs when every bird is dead
         self.speciate()
 
         self.calculate_fitness_for_species()
@@ -104,11 +104,21 @@ class PopulatioManager:
         # self.population = sorted(self.population, key=lambda bird: bird.score, reverse=True)
 
     def generate_next_population(self):
-        next_generation = []
+        children = []
 
+        for specie in self.species: # best of every specie survives
+            children.append(specie.champion.clone())
         
+        children_per_species = np.floor((self.population_size - len(self.species)) / len(self.species)).astype(int)
 
-        self.population = next_generation
+        for specie in self.species:
+            for i in range(0, children_per_species):
+                children.append(self.genetic.create_baby_from_specie(specie))
+
+        while len(children) < self.population_size: # fill up from best specie
+            children.append(self.genetic.create_baby_from_specie(self.species[0]))
+
+        self.population = children
 
     def add_new_specie(self, refenrence_bird):
         self.species.append(Specie(refenrence_bird))

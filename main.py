@@ -41,12 +41,12 @@ def main(population_manager = None):
 		population_manager.time_for_decision -= 1
 
 		alive_birds_count= population_manager.get_alive_birds_count()
-		# print(f"Alive birds: {alive_birds_count}")
+		print(f"Alive birds: {alive_birds_count}")
 
 		if alive_birds_count < 1:
 			#population_manager.generate_population()
 			population_manager.survival_of_the_fittest()
-			main(population_manager)
+			# main(population_manager)
 
 		else:
 			population_manager.update_population(pipe_list, base_list)

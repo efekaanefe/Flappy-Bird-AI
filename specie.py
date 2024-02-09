@@ -22,10 +22,13 @@ class Specie:
         self.members.append(bird)
     
     def calculate_average_score(self):
-        sum = 0
-        for member in self.members:
-            sum += member.score
-        self.average_score = sum / len(self.members)
+        if len(self.members) != 0:
+            sum = 0
+            for member in self.members:
+                sum += member.score
+            self.average_score = sum / len(self.members)
+        else:
+            self.average_score = 0
 
     def sort_members(self):
         self.members = sorted(self.members, key=lambda bird: bird.score, reverse=True)

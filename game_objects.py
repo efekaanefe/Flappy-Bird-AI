@@ -7,7 +7,6 @@ class Bird():
 	def __init__(self, screen, alpha = 1):
 		self.screen = screen
 		self.alpha = alpha
-		
 		self.x = BIRD_X_INIT
 		self.y = BIRD_Y_INIT
 		self.sprite = BIRD_SPRITE
@@ -17,12 +16,11 @@ class Bird():
 		self.time_passed = 0.03 #since the last loop
 		self.sprite_incrementation = 0.1
 		self.create_rect()
-		
+
         # genetic algorithm
 		self.is_alive = True
 		self.score = 0
 		self.brain = Perceptron()
-		
 
 	def jump(self):
 		self.y_vel = -7
@@ -40,6 +38,13 @@ class Bird():
 		
 	def draw(self):
 		self.screen.blit(self.sprite[int(self.current_sprite)], (self.x, self.y))
+
+	def clone(self):
+		bird = Bird(self.screen)
+		# bird.score = self.score
+		bird.brain = self.brain
+		return bird
+
 
 
 class Base():

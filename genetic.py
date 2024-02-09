@@ -39,3 +39,22 @@ class GeneticAlgorithm:
         weights=[bird.score for bird in population]
         # print(weights)
         return choices(population, weights=weights, k = 2)
+    
+
+    def create_baby_from_specie(self, specie):
+        baby = specie.members[randint(1, len(specie.members)) - 1].clone()
+        baby.brain = self.mutate(baby.brain)
+        return baby
+
+    def mutate(self, brain):
+        genome = brain.w
+        for _ in range(self.mutations_per_genome):
+            if random() <= self.mutation_probability:
+
+                index = randint(0,len(genome)-1)
+                mutation_multiplier = choice([-1,1])
+                mutation_amount = randint(0,101)/100
+                genome[index] = genome[index] + mutation_multiplier * mutation_amount #MUTATION_AMOUNT
+
+        brain.w = genome
+        return brain
