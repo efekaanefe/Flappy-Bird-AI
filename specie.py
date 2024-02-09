@@ -21,8 +21,7 @@ class Specie:
         sum = 0
         for member in self.members:
             sum += member.score
-
         self.average_score = sum / len(self.members)
 
     def sort_members(self):
-        self.members = sorted(self.population, key=lambda bird: bird.score, reverse=True)
+        self.members = sorted(self.members, key=lambda bird: bird.score, reverse=True)

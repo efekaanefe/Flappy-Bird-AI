@@ -68,11 +68,11 @@ class PopulatioManager:
     def survival_of_the_fittest(self):
         self.speciate()
 
-        self.calculate_fitness_for_species(self)
+        self.calculate_fitness_for_species()
 
-        self.sort_population(self.population)
+        self.sort_population()
 
-        self.generate_next_population(self)
+        # self.generate_next_population()
 
 
     def speciate(self):
@@ -103,7 +103,9 @@ class PopulatioManager:
     def sort_population(self): # inside of 
         for specie in self.species:
             specie.sort_members()
-            
+
+        self.species = sorted(self.species, key=lambda specie: specie.average_score, reverse=True)
+
         # self.population = sorted(self.population, key=lambda bird: bird.score, reverse=True)
 
     def generate_next_population(self):
