@@ -11,8 +11,8 @@ BASE_WIDTH, BASE_HEIGHT = 400, 200
 BASE_SPEED = 5 # 10 % base_speed must be equal to 0, otherwise scoring mechanism won´t work properly
 
 PIPE_WIDTH, PIPE_HEIGHT = 100, 600
-PIPE_GAP = 300 #vertical
-PIPE_DISTANCE = 250 #horizontal
+PIPE_GAP = 300 # vertical
+PIPE_DISTANCE = 250 # horizontal
 PIPE_LOWER_HEIGHT_BOUND = 300
 PIPE_UPPER_HEIGHT_BOUND = 650
 

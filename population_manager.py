@@ -72,7 +72,7 @@ class PopulatioManager:
 
         self.sort_population()
 
-        # self.generate_next_population()
+        self.generate_next_population()
 
 
     def speciate(self):
@@ -80,27 +80,21 @@ class PopulatioManager:
             specie.members = []
 
         for bird in self.population:
-            if len(self.species) == 0:
-                self.species.append(Specie(bird))
-
-            else:
-                bird_is_added_to_members = False
-
-                for specie in self.species:
-                    is_bird_relative = specie.is_bird_relative(bird)
-                    if is_bird_relative:
-                        specie.add_member(bird)
-                        bird_is_added_to_members = True
-                        break
-                        
-                if not bird_is_added_to_members: # new specie
-                    self.add_new_specie(bird)
+            bird_is_added_to_members = False
+            for specie in self.species:
+                if specie.is_bird_relative(bird):
+                    specie.add_member(bird)
+                    bird_is_added_to_members = True
+                    break
+                    
+            if not bird_is_added_to_members: # new specie
+                self.add_new_specie(bird)
 
     def calculate_fitness_for_species(self):
         for specie in self.species:
             specie.calculate_average_score()
             specie.find_champion()
-            
+
     def sort_population(self): # inside of 
         for specie in self.species:
             specie.sort_members()
@@ -111,26 +105,8 @@ class PopulatioManager:
 
     def generate_next_population(self):
         next_generation = []
-        for i in range(10):
-            bird = Bird(self.screen)
-            bird.brain.w = self.population[i]
-            bird.brain.b = self.population[i]
 
-        while len(next_generation)<POPULATION_SIZE:
-            parents = self.genetic.select_pair(self.population)
-
-            bird_a = Bird(self.screen)
-            bird_b = Bird(self.screen)
-
-            # weights and bias
-            offspring_a, offspring_b = self.genetic.crossover(parents[0].brain.w, parents[1].brain.w)
-            offspring_a = self.genetic.mutation(offspring_a)
-            offspring_b = self.genetic.mutation(offspring_b)
-
-            bird_a.brain.w = offspring_a
-            bird_b.brain.w = offspring_b
-
-            next_generation += [bird_a, bird_b]
+        
 
         self.population = next_generation
 

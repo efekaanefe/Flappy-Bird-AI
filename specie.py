@@ -7,12 +7,13 @@ class Specie:
         self.refenrence_bird = refenrence_bird
         self.reference_weights = refenrence_bird.brain.w
         self.members = []
+        self.members.append(refenrence_bird)
         self.average_score = 0
-        self.champion = None
+        self.champion = None # per gen
 
     def is_bird_relative(self, new_bird):
         new_weights = new_bird.brain.w
-        total_weight_difference = np.sum(new_weights-self.reference_weights)
+        total_weight_difference = np.abs(np.sum(new_weights-self.reference_weights))
         if total_weight_difference<WEIGHT_DIFFERENCE_THRESHOLD:
             return True
         return False
