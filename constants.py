@@ -3,8 +3,9 @@ pygame.font.init()
 
 
 SCORE_FONT =pygame.font.SysFont("comicsans", 100)
+INFO_FONT =pygame.font.SysFont("comicsans", 28)
 
-WIDTH = 500
+WIDTH = 600
 HEIGHT = 800
 
 BASE_WIDTH, BASE_HEIGHT = 400, 200
@@ -30,7 +31,7 @@ BIRD_Y_INIT = 400
 
 
 # Genetic
-POPULATION_SIZE = 100
+POPULATION_SIZE = 1000
 MUTATIONS_PER_GENOME = 3
 MUTATION_PROBABILITY = 0.5
 MUTATION_AMOUNT  = 0.1

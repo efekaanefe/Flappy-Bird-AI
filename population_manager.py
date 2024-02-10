@@ -12,13 +12,16 @@ class PopulatioManager:
 
         self.genetic = GeneticAlgorithm()
         self.population_size = POPULATION_SIZE
-        self.generation = 1
+        self.generation = 0
         self.population = None
         self.generate_population()
         self.species = []
 
+        self.highest_score_of_all_time = 0
+
     def generate_population(self):
         self.generation += 1
+        self.current_score = 0
         self.population = [Bird(self.screen) for _ in range(self.population_size)]
     
     def update_population(self, pipe_list, base_list):
@@ -53,6 +56,10 @@ class PopulatioManager:
                     bird.current_sprite = 0
                 bird.update_location()
 
+        self.current_score += 1
+        if self.current_score > self.highest_score_of_all_time:
+            self.highest_score_of_all_time = self.current_score
+
     def get_alive_birds_count(self):
         count = 0
         for bird in self.population:
@@ -63,14 +70,15 @@ class PopulatioManager:
     def survival_of_the_fittest(self): # runs when every bird is dead
         self.speciate()
 
-        print(len(self.species))
-
         self.calculate_fitness_for_species()
 
         self.sort_population()
 
-        self.generate_next_population()
 
+
+        self.generate_next_population()
+        self.generation += 1
+        self.current_score = 0
 
     def speciate(self):
         for specie in self.species:
