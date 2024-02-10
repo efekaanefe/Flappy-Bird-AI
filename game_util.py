@@ -36,8 +36,8 @@ def check_for_collisions(bird, pipe_list, base_list):
 def draw_population_info(SCREEN, population_manager):
     alive_birds_count = population_manager.get_alive_birds_count()
     generation_number = population_manager.generation 
-    highest_score = population_manager.highest_score_of_all_time  
-    current_score = population_manager.current_score    
+    highest_score = population_manager.highest_score_of_all_time 
+    current_score = population_manager.current_score 
 
     text = f"Generation: {generation_number}"       
     text_img = INFO_FONT.render(text, True, (0,0,0))

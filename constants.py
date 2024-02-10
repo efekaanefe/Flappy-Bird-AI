@@ -11,11 +11,13 @@ HEIGHT = 800
 BASE_WIDTH, BASE_HEIGHT = 400, 200
 BASE_SPEED = 5 # 10 % base_speed must be equal to 0, otherwise scoring mechanism won´t work properly
 
+
 PIPE_WIDTH, PIPE_HEIGHT = 100, 600
-PIPE_GAP = 200 # vertical
-PIPE_DISTANCE = 300 # horizontal
+PIPE_GAP = 150 # vertical
+PIPE_DISTANCE = 400 # horizontal
 PIPE_LOWER_HEIGHT_BOUND = 300
 PIPE_UPPER_HEIGHT_BOUND = 650
+
 
 BIRD_SCALE = 1.5
 BIRD_WIDTH, BIRD_HEIGHT =  int(34*BIRD_SCALE), int(24*BIRD_SCALE)

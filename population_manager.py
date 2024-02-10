@@ -45,7 +45,6 @@ class PopulatioManager:
                 X = np.array([x0, x1, x2, x3])
 
                 # decision to jump
-                #if bird.y_vel > 0:
                 decision = bird.brain.decision(X)
                 if decision >= JUMP_THRESHOLD:
                     bird.jump()
@@ -57,7 +56,12 @@ class PopulatioManager:
                     bird.current_sprite = 0
                 bird.update_location()
 
-        self.current_score += 1
+        # score updates
+        scored = False
+
+        if pipe_list[0].x == BIRD_X_INIT:
+            self.current_score += 1
+
         if self.current_score > self.highest_score_of_all_time:
             self.highest_score_of_all_time = self.current_score
         
