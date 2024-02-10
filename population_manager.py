@@ -17,11 +17,8 @@ class PopulatioManager:
         self.generate_population()
         self.species = []
 
-        self.time_for_decision = INITIAL_TIME_FOR_DECISION # to jump
-        
     def generate_population(self):
         self.generation += 1
-        self.time_for_decision = INITIAL_TIME_FOR_DECISION
         self.population = [Bird(self.screen) for _ in range(self.population_size)]
     
     def update_population(self, pipe_list, base_list):
@@ -45,11 +42,9 @@ class PopulatioManager:
                 X = np.array([x0,x1,x2, x3])
 
                 # decision to jump
-                if self.time_for_decision == 0:
-                    decision = bird.brain.decision(X)
-                    if decision >= JUMP_THRESHOLD:
-                        bird.jump()
-                    self.time_for_decision = INITIAL_TIME_FOR_DECISION
+                decision = bird.brain.decision(X)
+                if decision >= JUMP_THRESHOLD:
+                    bird.jump()
 
                 # draw, and update pos
                 bird.draw()

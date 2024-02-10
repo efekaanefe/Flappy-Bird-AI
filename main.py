@@ -38,15 +38,13 @@ def main(population_manager = None):
 		draw_base(base_list, SCREEN)
 		draw_pipes(pipe_list, SCREEN)
 
-		population_manager.time_for_decision -= 1 # change this approach, only one bird is jumping
 
 		alive_birds_count= population_manager.get_alive_birds_count()
 
-		print(f"Alive birds: {alive_birds_count}")
+		# print(f"Alive birds: {alive_birds_count}")
 		# print(population_manager.time_for_decision)
 
 		if alive_birds_count < 1:
-			# population_manager.generate_population()
 			population_manager.survival_of_the_fittest()
 			main(population_manager)
 
