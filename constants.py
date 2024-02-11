@@ -28,7 +28,7 @@ PIPE_IMAGE = pygame.transform.scale(pygame.image.load("assets/pipe.png"), (PIPE_
 BIRD_SPRITE = []
 for i in range(3): BIRD_SPRITE.append(pygame.transform.scale(pygame.image.load(f"assets/bird{i}.png"), (BIRD_WIDTH, BIRD_HEIGHT)))
 
-BIRD_X_INIT = 100
+BIRD_X_INIT = 25
 BIRD_Y_INIT = 400
 
 

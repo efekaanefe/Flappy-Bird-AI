@@ -25,8 +25,11 @@ class PopulatioManager:
         self.population = [Bird(self.screen) for _ in range(self.population_size)]
 
     def update_population(self, pipe_list, base_list):
+        print("-"*50)
         for bird in self.population:
             if bird.is_alive:
+                print(np.random.randint(0,10), bird.y)
+
                 # score
                 bird.score += 1
 

@@ -25,6 +25,8 @@ def draw_pipes(pipe_list,SCREEN):
             pipe_list.pop(0)
             
 def check_for_collisions(bird, pipe_list, base_list):
+    if not (0<bird.y<HEIGHT):
+        return False
     length = len(pipe_list)
     for i in range(length):
         if bird.rect.colliderect(pipe_list[i].rects[0]) or bird.rect.colliderect(pipe_list[i].rects[1]):
